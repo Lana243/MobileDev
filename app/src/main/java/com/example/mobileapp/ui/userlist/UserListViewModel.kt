@@ -1,6 +1,9 @@
-package com.example.mobileapp
+package com.example.mobileapp.ui.userlist
 
 import androidx.lifecycle.viewModelScope
+import com.example.mobileapp.Api
+import com.example.mobileapp.domain.User
+import com.example.mobileapp.ui.base.BaseViewModel
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

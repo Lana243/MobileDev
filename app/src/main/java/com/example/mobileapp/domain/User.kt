@@ -1,4 +1,4 @@
-package com.example.mobileapp
+package com.example.mobileapp.domain
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
