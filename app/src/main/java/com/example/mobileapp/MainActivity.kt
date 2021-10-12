@@ -29,12 +29,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     /* override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(LOG_TAG, "onCreate()")
         setContentView(R.layout.activity_main)
         val adapter = setupRecyclerView()
         lifecycleScope.launch {
             viewModel.viewState.collect { viewState ->
-                Log.d(LOG_TAG, viewState.toString())
                 renderViewState(viewState)
             }
         }

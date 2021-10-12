@@ -1,4 +1,15 @@
 package com.example.mobileapp
 
-class BaseFragment {
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+
+open class BaseFragment : Fragment {
+
+    constructor() : super()
+
+    constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
+
+    override fun onStart() {
+        super.onStart()
+    }
 }
