@@ -15,7 +15,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MainViewModel : ViewModel() {
 
-    sealed class ViewState {
+    /* sealed class ViewState {
         object Loading : ViewState()
         data class Data(val userList: List<User>) : ViewState()
     }
@@ -53,6 +53,6 @@ class MainViewModel : ViewModel() {
 
     private fun provideMoshi(): Moshi {
         return Moshi.Builder().build()
-    }
+    } */
 
 }

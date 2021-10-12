@@ -23,15 +23,11 @@ import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    companion object {
-        val LOG_TAG = " MyAwesomeLogTag"
-    }
-
     val viewModel: MainViewModel by viewModels()
 
     private val viewBinding by viewBinding(ActivityMainBinding::bind)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /* override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(LOG_TAG, "onCreate()")
         setContentView(R.layout.activity_main)
@@ -67,5 +63,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val adapter = UserAdapter()
         recyclerView.adapter = adapter
         return adapter
-    }
+    } */
 }
