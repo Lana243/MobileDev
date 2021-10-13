@@ -26,7 +26,7 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         player = SimpleExoPlayer.Builder(requireContext()).build().apply {
-            addMediaItem(MediaItem.fromUri("assets:///onboarding.mp4"))
+            addMediaItem(MediaItem.fromUri("asset:///onboarding.mp4"))
             repeatMode = Player.REPEAT_MODE_ALL
             prepare()
         }
@@ -49,14 +49,17 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     override fun onResume() {
         super.onResume()
+        player?.play()
     }
 
     override fun onPause() {
         super.onPause()
+        player?.pause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        player?.release()
     }
 
     private fun ViewPager2.setTextPages() {
