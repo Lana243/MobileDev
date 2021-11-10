@@ -12,4 +12,6 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     private val viewModel : SignUpViewModel by viewModels()
 
+
+
 }
