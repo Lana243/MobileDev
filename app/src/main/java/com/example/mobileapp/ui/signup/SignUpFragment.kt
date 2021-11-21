@@ -198,7 +198,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                 override fun onClick(widget: View) = clubRulesClickListener()
                 override fun updateDrawState(ds: TextPaint) {
                     super.updateDrawState(ds)
-                    ds.color = resources.getColor(R.color.purple_200, null)
+                    ds.color = resources.getColor(R.color.brand_blue, null)
                 }
             }
 

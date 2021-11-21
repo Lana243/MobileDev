@@ -15,7 +15,7 @@
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/playerView"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="450dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -68,26 +68,25 @@
         app:tabMinWidth="18dp" />
 
     <Button
-        android:layout_marginTop="24dp"
-        android:text="@string/onboarding_sign_in_button_text"
-        android:layout_marginHorizontal="24dp"
+        style="@style/MyBrandOrangeButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/signUpButton"
         android:id="@+id/signInButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:text="@string/onboarding_sign_in_button_text"
+        android:layout_marginHorizontal="24dp" />
 
     <Button
-        android:text="@string/onboarding_sign_up_button_text"
-        android:layout_marginHorizontal="24dp"
+        style="@style/MyBrandBlueButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/onboarding_sign_up_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="24dp"
-        android:id="@+id/signUpButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_marginHorizontal="24dp"
+        android:id="@+id/signUpButton" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
