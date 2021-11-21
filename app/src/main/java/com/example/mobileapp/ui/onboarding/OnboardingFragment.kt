@@ -1,5 +1,6 @@
 package com.example.mobileapp.ui.onboarding
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -35,6 +36,7 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewBinding.volumeControlButton.applyInsetter {
             type(statusBars = true) { margin() }
         }

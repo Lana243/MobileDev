@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageButton
-        style="@style/MyImageButton"
+        style="@style/MyBackButton"
         android:id="@+id/backButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,9 +33,8 @@
         android:layout_marginTop="40dp"/>
 
     <Button
+        style="@style/MyBrandOrangeButton"
         android:id="@+id/verifyButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/email_confirmation_verify"
@@ -44,9 +43,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        style="@style/MyBrandBlueButton"
         android:id="@+id/toEmailButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="48dp"
         android:text="@string/email_confirmation_to_email"
