@@ -2,7 +2,6 @@ package com.example.mobileapp.ui.onboarding
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,6 +16,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
+import dev.chrisbanes.insetter.applyInsetter
 
 class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
@@ -35,6 +35,13 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.volumeControlButton.applyInsetter {
+            type(statusBars = true) { margin() }
+        }
+        viewBinding.signUpButton.applyInsetter {
+            type(navigationBars = true) { margin() }
+        }
+
         viewBinding.playerView.player = player
         viewBinding.viewPager.setTextPages()
         viewBinding.viewPager.attachDots(viewBinding.onboardingTextTabLayout)

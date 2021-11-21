@@ -2,7 +2,11 @@ package com.example.mobileapp.ui.userlist
 
 import androidx.lifecycle.viewModelScope
 import com.example.mobileapp.Api
+import com.example.mobileapp.BuildConfig
+import com.example.mobileapp.data.network.MockApi
+import com.example.mobileapp.data.network.interceptor.AuthorizationInterceptor
 import com.example.mobileapp.domain.User
+import com.example.mobileapp.repository.AuthRepository
 import com.example.mobileapp.ui.base.BaseViewModel
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +16,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 
 class UserListViewModel : BaseViewModel() {
 
@@ -41,6 +47,9 @@ class UserListViewModel : BaseViewModel() {
     }
 
     private fun provideApi(): Api {
+        /*if () {
+            return MockApi()
+        }*/
         return Retrofit.Builder()
             .client(provideOkHttpClient())
             .baseUrl("https://reqres.in/api/")
@@ -49,9 +58,21 @@ class UserListViewModel : BaseViewModel() {
             .create(Api::class.java)
     }
 
-    private fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
-    }
+    private fun provideOkHttpClient(): OkHttpClient =
+        OkHttpClient
+            .Builder()
+            //.addInterceptor(AuthorizationInterceptor(AuthRepository(api, ...)))
+            //.authenticator(MobileAppAuthenticator(AuthRepository(api, ...)))
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    addNetworkInterceptor(
+                        HttpLoggingInterceptor { message ->
+                            Timber.d(message)
+                        }.setLevel(HttpLoggingInterceptor.Level.BODY)
+                    )
+                }
+            }
+            .build()
 
     private fun provideMoshi(): Moshi {
         return Moshi.Builder().build()
