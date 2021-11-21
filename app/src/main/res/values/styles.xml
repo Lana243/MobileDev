@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:src">@drawable/ic_arrow_back_black_24</item>
+    </style>
+
+    <style name="Widget.MobileApp.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/black</item>
+    </style>
+
+    <style name="Widget.MobileApp.EditText" parent="Widget.AppCompat.EditText">
+        <item name="backgroundTint">@color/brand_orange</item>
+    </style>
+</resources>
