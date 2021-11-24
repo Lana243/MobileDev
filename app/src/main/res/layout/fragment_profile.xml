@@ -18,6 +18,7 @@
 
     <!-- TODO: add style  -->
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MobileApp.LinkButton"
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

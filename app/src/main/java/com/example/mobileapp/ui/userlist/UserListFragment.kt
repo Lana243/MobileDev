@@ -11,10 +11,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.mobileapp.R
 import com.example.mobileapp.databinding.FragmentUserListBinding
 import com.example.mobileapp.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
 
     private val viewBinding by viewBinding(FragmentUserListBinding::bind)
@@ -23,6 +25,9 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.usersRecyclerView.applyInsetter {
+            type(statusBars = true) { margin() }
+        }
         setupRecyclerView()
         subscribeToViewState()
     }
