@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -9,10 +10,13 @@ android {
 
     defaultConfig {
         applicationId "com.example.mobileapp"
-        minSdk 21
+        minSdk 23
         targetSdk 31
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "Boolean", "USE_MOCK_BACKEND_API", 'false'
+        buildConfigField "String", "BACKEND_API_URL", '""'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,7 +26,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -34,6 +40,52 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    flavorDimensions "deployment-environment"
+
+    productFlavors {
+        mock {
+            dimension "deployment-environment"
+            applicationIdSuffix ".mock"
+            versionNameSuffix ".mock"
+            buildConfigField "Boolean", "USE_MOCK_BACKEND_API", 'true'
+        }
+        dev {
+            dimension "deployment-environment"
+            applicationIdSuffix ".dev"
+            versionNameSuffix ".dev"
+            buildConfigField "String", "BACKEND_API_URL", '""'
+        }
+        stage {
+            dimension "deployment-environment"
+            applicationIdSuffix ".stage"
+            versionNameSuffix ".stage"
+            buildConfigField "String", "BACKEND_API_URL", '""'
+        }
+        prod {
+            dimension "deployment-environment"
+            versionNameSuffix ".prod"
+            // Despite the default config, all the variables are specified explicitly here,
+            // because this product flavor is the most sensitive to errors.
+            buildConfigField "Boolean", "USE_MOCK_BACKEND_API", 'false'
+            buildConfigField "String", "BACKEND_API_URL", '""'
+        }
+
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "shmidt-${variant.versionName}-${variant.buildType.name}.apk"
+        }
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+hilt {
+    enableAggregatingTask = true
 }
 
 dependencies {
@@ -71,4 +123,39 @@ dependencies {
 
     // View binding helper.
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.4.4"
+
+    implementation "androidx.fragment:fragment-ktx:1.1.0"
+
+    // Video player
+    def exoPlayerVersion = "2.15.0"
+    implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
+
+    // Navigation.
+    def navigationVersion = "2.4.0-alpha08"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    // Logger.
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    // RecyclerView adapter delegates.
+    // https://github.com/sockeqwe/AdapterDelegates
+    def adapterDelegatesVersion = '4.3.0'
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapterDelegatesVersion"
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
+
+    // System insets handling.
+    // https://chrisbanes.github.io/insetter
+    // https://github.com/chrisbanes/insetter
+    implementation "dev.chrisbanes.insetter:insetter:0.6.0"
+
+    // https://github.com/haroldadmin/NetworkResponseAdapter
+    implementation "com.github.haroldadmin:NetworkResponseAdapter:4.2.2"
+
+    // Dependency injection.
+    def hiltVersion = "2.38.1"
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+    implementation "androidx.hilt:hilt-navigation-fragment:1.0.0"
 }
