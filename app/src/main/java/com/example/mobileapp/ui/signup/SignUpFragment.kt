@@ -2,6 +2,7 @@ package com.example.mobileapp.ui.signup
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -58,6 +59,26 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
         viewBinding.signUpButton.applyInsetter {
             type(navigationBars = true) { margin() }
+        }
+
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                viewBinding.emailTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.firstnameTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.lastnameTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.nicknameTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.passwordTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+            }
         }
 
         viewBinding.backButton.setOnClickListener {
