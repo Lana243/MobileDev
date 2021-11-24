@@ -1,5 +1,6 @@
 package com.example.mobileapp.ui.onboarding
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -42,6 +43,19 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
         }
         viewBinding.signUpButton.applyInsetter {
             type(navigationBars = true) { margin() }
+        }
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                viewBinding.signInButton.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.onboardingTextTabLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.viewPager.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+            }
         }
 
         viewBinding.playerView.player = player

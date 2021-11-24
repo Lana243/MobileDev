@@ -1,5 +1,6 @@
 package com.example.mobileapp.ui.emailconfirmation
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -25,6 +26,14 @@ class EmailConfirmationFragment : BaseFragment(R.layout.fragment_email_confirmat
 
         viewBinding.toEmailButton.applyInsetter {
             type(navigationBars = true) { margin() }
+        }
+
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                viewBinding.verifyButton.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+            }
         }
 
         viewBinding.backButton.setOnClickListener {

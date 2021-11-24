@@ -1,6 +1,7 @@
 package com.example.mobileapp.ui.signin
 
 import android.app.AlertDialog
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -42,6 +43,20 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
         viewBinding.signInButton.applyInsetter {
             type(navigationBars = true) { margin() }
+        }
+
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                viewBinding.signInButton.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.passwordTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+                viewBinding.emailTextInputLayout.applyInsetter {
+                    type(navigationBars = true) { margin() }
+                }
+            }
         }
 
         viewBinding.backButton.setOnClickListener {
