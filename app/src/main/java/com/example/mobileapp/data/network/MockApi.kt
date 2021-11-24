@@ -13,7 +13,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 
 class MockApi : Api {
     override suspend fun getUsers(): GetUsersResponse {
-        TODO("Not yet implemented")
+        return GetUsersResponse(emptyList())
     }
 
     override suspend fun signInWithEmail(request: SignInWithEmailRequest): NetworkResponse<AuthTokens, SignInWithEmailErrorResponse> {

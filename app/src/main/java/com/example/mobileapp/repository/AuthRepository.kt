@@ -18,7 +18,9 @@ import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 import dagger.Lazy
+import javax.inject.Singleton
 
+@Singleton
 class AuthRepository @Inject constructor(
     private val apiLazy: Lazy<Api>,
     private val localKeyValueStorage: LocalKeyValueStorage,
@@ -56,6 +58,8 @@ class AuthRepository @Inject constructor(
      * @return whether active access tokens are authorized or not
      */
     suspend fun isAuthorizedFlow(): Flow<Boolean> {
+        // TODO: fix navigation from sign in
+        // return MutableStateFlow(true)
         return authTokensFlow
             .await()
             .asStateFlow()

@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mobileapp.R
 import com.example.mobileapp.databinding.ActivityMainBinding
-import com.example.mobileapp.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
