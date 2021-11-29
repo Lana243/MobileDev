@@ -30,4 +30,5 @@
     <string name="email_confirmation_sent">Код подтверждения был выслан Вам на почту</string>
     <string name="email_confirmation_verify">Подтвердить код</string>
     <string name="email_confirmation_to_email">Перейти в почту</string>
+    <string name="common_general_error_text">Упс, что-то пошло не так :(</string>
 </resources>

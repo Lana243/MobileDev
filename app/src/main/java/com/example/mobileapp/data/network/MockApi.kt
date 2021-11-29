@@ -1,7 +1,6 @@
 package com.example.mobileapp.data.network
 
 import com.example.mobileapp.Api
-import com.example.mobileapp.GetUsersResponse
 import com.example.mobileapp.data.network.request.CreateProfileRequest
 import com.example.mobileapp.data.network.request.RefreshAuthTokensRequest
 import com.example.mobileapp.data.network.request.SignInWithEmailRequest
@@ -9,11 +8,24 @@ import com.example.mobileapp.data.network.response.VerificationTokenResponse
 import com.example.mobileapp.data.network.response.error.*
 import com.example.mobileapp.domain.AuthTokens
 import com.example.mobileapp.domain.Post
+import com.example.mobileapp.domain.User
 import com.haroldadmin.cnradapter.NetworkResponse
 
 class MockApi : Api {
-    override suspend fun getUsers(): GetUsersResponse {
-        TODO("Not yet implemented")
+    override suspend fun getUsers(): NetworkResponse<List<User>, Unit> {
+        return NetworkResponse.Success(
+            body = listOf(
+                User(
+                    id = 7,
+                    firstName = "Michael",
+                    lastName = "Lawson",
+                    avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
+                    username = "Michael",
+                    groupName = "Б09.мкн"
+                )
+            ),
+            code = 200
+        )
     }
 
     override suspend fun signInWithEmail(request: SignInWithEmailRequest): NetworkResponse<AuthTokens, SignInWithEmailErrorResponse> {
