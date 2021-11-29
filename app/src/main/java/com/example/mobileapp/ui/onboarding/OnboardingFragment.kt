@@ -3,6 +3,7 @@ package com.example.mobileapp.ui.onboarding
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -25,11 +26,12 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
     val viewBinding by viewBinding(FragmentOnboardingBinding::bind)
 
     private var player: ExoPlayer? = null
+    private var soundOn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         player = SimpleExoPlayer.Builder(requireContext()).build().apply {
-            addMediaItem(MediaItem.fromUri("asset:///onboarding.mp4"))
+            addMediaItem(MediaItem.fromUri("asset:///onboarding_new.mp4"))
             repeatMode = Player.REPEAT_MODE_ALL
             prepare()
         }
@@ -37,6 +39,10 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        player?.volume = 0f
+        viewBinding.volumeControlButton.setImageResource(R.drawable.ic_volume_button_off)
+        soundOn = false
 
         viewBinding.volumeControlButton.applyInsetter {
             type(statusBars = true) { margin() }
@@ -66,6 +72,15 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
         }
         viewBinding.signUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_onboardingFragment_to_signUpFragment)
+        }
+        viewBinding.volumeControlButton.setOnClickListener {
+            player?.volume = 1f - (player?.volume ?: 1f)
+            if (soundOn) {
+                viewBinding.volumeControlButton.setImageResource(R.drawable.ic_volume_button_off)
+            } else {
+                viewBinding.volumeControlButton.setImageResource(R.drawable.ic_volume_button)
+            }
+            soundOn = soundOn xor true
         }
     }
 
@@ -99,4 +114,6 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
     private fun ViewPager2.attachDots(tabLayout: TabLayout) {
         TabLayoutMediator(tabLayout, this) { _, _ -> }.attach()
     }
+
+
 }
