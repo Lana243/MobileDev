@@ -4,6 +4,9 @@ import android.app.AlertDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.RotateAnimation
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -45,6 +48,8 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
             type(navigationBars = true) { margin() }
         }
 
+        runAnimation()
+
         when (resources.configuration.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 viewBinding.signInButton.applyInsetter {
@@ -72,6 +77,11 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
         subscribeToFromFields()
 
+    }
+
+    private fun runAnimation() {
+        val animation = AnimationUtils.loadAnimation(context, R.anim.center_rotation)
+        viewBinding.mcsLogoImageView.startAnimation(animation)
     }
 
     private fun subscribeToFromFields() {
