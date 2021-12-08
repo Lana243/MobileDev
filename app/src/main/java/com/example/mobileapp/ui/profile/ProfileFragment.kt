@@ -27,6 +27,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         viewBinding.logoutButton.applyInsetter {
             type(statusBars = true) { margin() }
         }
+        viewBinding.info.applyInsetter {
+            type(navigationBars = true) { margin() }
+        }
         viewBinding.logoutButton.setOnClickListener {
             viewModel.logout()
         }

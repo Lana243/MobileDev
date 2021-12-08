@@ -17,8 +17,8 @@
 
     <ImageView
         android:id="@+id/avatarImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
         android:src="@drawable/ic_baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,62 +34,116 @@
         app:layout_constraintTop_toBottomOf="@+id/avatarImageView"
         android:text="Andrew"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textColor="@color/brand_blue"
-        android:textStyle="italic|bold"
-        />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Имя"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintEnd_toStartOf="@+id/selectedName"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectedUsername"
-        android:layout_marginTop="24dp"
         android:textColor="@color/brand_orange"
-        android:textStyle="italic|bold"
+        android:textStyle="bold"
         />
 
-    <TextView
-        android:id="@+id/selectedName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Андрей"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintTop_toBottomOf="@+id/selectedUsername"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="@+id/name"
-        />
-
-    <TextView
-        android:id="@+id/surname"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Фамилия"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintEnd_toStartOf="@+id/selectedSurname"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        android:textStyle="italic|bold"
-        android:textColor="@color/brand_orange"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:id="@+id/info"
+        >
 
-    <TextView
-        android:id="@+id/selectedSurname"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Петров"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/surname"
-        app:layout_constraintTop_toTopOf="@+id/surname" />
+        app:layout_constraintTop_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/name"
+        >
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Имя"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/brand_blue"
+            android:textStyle="bold"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/selectedName"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Андрей"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/surname"
+        >
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Фамилия"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/brand_blue"
+            android:textStyle="bold"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/selectedSurname"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Петров"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/surname"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/groupName"
+        >
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Группа"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toStartOf="@+id/selectedName"
+            android:textColor="@color/brand_blue"
+            android:textStyle="bold"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/selectedGroup"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="19.Б09-мкн"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
