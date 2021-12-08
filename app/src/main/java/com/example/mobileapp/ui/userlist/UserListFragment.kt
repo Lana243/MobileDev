@@ -25,11 +25,26 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+        subscribeToViewState()
+
         viewBinding.usersRecyclerView.applyInsetter {
             type(statusBars = true) { margin() }
         }
-        setupRecyclerView()
-        subscribeToViewState()
+        viewBinding.pullToRefreshLayout.applyInsetter {
+            type(statusBars = true) { margin() }
+        }
+
+        viewBinding.refreshButton.setOnClickListener {
+            viewModel.loadUsers()
+        }
+
+        viewBinding.pullToRefreshLayout.setOnRefreshListener {
+            viewBinding.pullToRefreshLayout.isRefreshing = true
+            viewModel.loadUsers()
+            viewBinding.pullToRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun subscribeToViewState() {
@@ -45,16 +60,28 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
         when (viewState) {
             is UserListViewModel.ViewState.Loading -> {
                 viewBinding.usersRecyclerView.isVisible = false
-                viewBinding.progressBar.isVisible = true
+                viewBinding.errorLayout.isVisible = false
             }
             is UserListViewModel.ViewState.Data -> {
-                viewBinding.progressBar.isVisible = false
                 viewBinding.usersRecyclerView.isVisible = true
+                viewBinding.errorLayout.isVisible = false
 
                 (viewBinding.usersRecyclerView.adapter as UserAdapter).apply {
                     userList = viewState.userList
                     notifyDataSetChanged()
                 }
+            }
+            is UserListViewModel.ViewState.Error -> {
+                viewBinding.usersRecyclerView.isVisible = false
+                viewBinding.errorLayout.isVisible = true
+
+                viewBinding.errorText.text = resources.getString(R.string.userlist_error_message)
+            }
+            is UserListViewModel.ViewState.EmptyList -> {
+                viewBinding.usersRecyclerView.isVisible = false
+                viewBinding.errorLayout.isVisible = true
+
+                viewBinding.errorText.text = resources.getString(R.string.userlist_empty)
             }
         }
     }

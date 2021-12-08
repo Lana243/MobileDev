@@ -19,6 +19,8 @@ class UserListViewModel @Inject constructor(
     sealed class ViewState {
         object Loading : ViewState()
         data class Data(val userList: List<User>) : ViewState()
+        object Error : ViewState()
+        object EmptyList : ViewState()
     }
 
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Loading)
@@ -28,15 +30,18 @@ class UserListViewModel @Inject constructor(
         loadUsers()
     }
 
-    private fun loadUsers() {
+    fun loadUsers() {
         viewModelScope.launch {
             _viewState.emit(ViewState.Loading)
             when (val response = usersInteractor.loadUsers()) {
                 is NetworkResponse.Success -> {
-                    _viewState.emit(ViewState.Data(response.body))
+                    if (response.body.isEmpty())
+                        _viewState.emit(ViewState.EmptyList)
+                    else
+                        _viewState.emit(ViewState.Data(response.body))
                 }
                 else -> {
-                    // TODO: handle the corner cases
+                    _viewState.emit(ViewState.Error)
                 }
             }
 
