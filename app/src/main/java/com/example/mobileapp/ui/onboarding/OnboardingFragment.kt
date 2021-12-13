@@ -82,6 +82,8 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
             }
             soundOn = soundOn xor true
         }
+
+        viewBinding.viewPager.setPageTransformer(OnboardingPageTransformer())
     }
 
     override fun onResume() {

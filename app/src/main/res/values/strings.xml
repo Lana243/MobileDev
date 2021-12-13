@@ -31,4 +31,8 @@
     <string name="email_confirmation_verify">Подтвердить код</string>
     <string name="email_confirmation_to_email">Перейти в почту</string>
     <string name="common_general_error_text">Упс, что-то пошло не так :(</string>
+    <string name="common_counter_prefix">+%d</string>
+    <string name="userlist_try_again">Попробовать еще раз</string>
+    <string name="userlist_empty">Пока нет добавленных пользователей</string>
+    <string name="userlist_error_message">Ой, что-то пошло не так :(\nПроверьте подключение к сети и повторите еще раз</string>
 </resources>

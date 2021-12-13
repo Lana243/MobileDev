@@ -10,22 +10,35 @@ import com.example.mobileapp.domain.AuthTokens
 import com.example.mobileapp.domain.Post
 import com.example.mobileapp.domain.User
 import com.haroldadmin.cnradapter.NetworkResponse
+import timber.log.Timber
+import java.lang.Exception
+import kotlin.random.Random
 
 class MockApi : Api {
+
+    private val randomizer = Random(1337)
+
     override suspend fun getUsers(): NetworkResponse<List<User>, Unit> {
-        return NetworkResponse.Success(
-            body = listOf(
-                User(
-                    id = 7,
-                    firstName = "Michael",
-                    lastName = "Lawson",
-                    avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
-                    username = "Michael",
-                    groupName = "Б09.мкн"
-                )
-            ),
-            code = 200
-        )
+        val success = randomizer.nextBoolean()
+        Timber.d("Try to load users. Success: %s", success)
+        if (success)
+            return NetworkResponse.Success(
+                body = listOf(
+                    User(
+                        id = 7,
+                        firstName = "Michael",
+                        lastName = "Lawson",
+                        avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
+                        username = "Michael",
+                        groupName = "Б09.мкн"
+                    )
+                ),
+                code = 200
+            )
+        if (randomizer.nextBoolean())
+            return NetworkResponse.Success(body= emptyList(), code=200)
+
+        return NetworkResponse.UnknownError(Exception("Упс..."), code=404)
     }
 
     override suspend fun signInWithEmail(request: SignInWithEmailRequest): NetworkResponse<AuthTokens, SignInWithEmailErrorResponse> {
