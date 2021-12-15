@@ -3,6 +3,7 @@ package com.example.mobileapp.ui.profile
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.mobileapp.R
 import com.example.mobileapp.ui.base.BaseFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import com.example.mobileapp.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
@@ -24,6 +26,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToEvents()
+        subscribeToViewState()
         viewBinding.logoutButton.applyInsetter {
             type(statusBars = true) { margin() }
         }
@@ -32,6 +35,14 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         }
         viewBinding.logoutButton.setOnClickListener {
             viewModel.logout()
+        }
+    }
+
+    private fun subscribeToViewState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.viewState.collect(::renderViewState)
+            }
         }
     }
 
@@ -50,6 +61,27 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                                 .show()
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun renderViewState(viewState : ProfileViewModel.ViewState) {
+        when (viewState) {
+            is ProfileViewModel.ViewState.Loading -> {
+                // TODO: handle loading
+            }
+            is ProfileViewModel.ViewState.Data -> {
+                Glide.with(viewBinding.avatarImageView)
+                    .load(viewState.user.avatarUrl)
+                    .circleCrop()
+                    .into(viewBinding.avatarImageView)
+                viewBinding.selectedFirstName.text = viewState.user.firstName
+                viewBinding.selectedLastName.text = viewState.user.lastName
+                viewBinding.selectedGroup.text = viewState.user.groupName
+                viewBinding.selectedUsername.text = viewState.user.username
+                if (viewState.user.groupName == null) {
+                    viewBinding.groupName.isVisible = false
                 }
             }
         }

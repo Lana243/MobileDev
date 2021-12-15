@@ -3,21 +3,18 @@ package com.example.mobileapp
 import com.example.mobileapp.data.network.request.CreateProfileRequest
 import com.example.mobileapp.data.network.request.RefreshAuthTokensRequest
 import com.example.mobileapp.data.network.request.SignInWithEmailRequest
-import com.example.mobileapp.data.network.response.VerificationTokenResponse
 import com.example.mobileapp.data.network.response.error.*
 import com.example.mobileapp.domain.AuthTokens
 import com.example.mobileapp.domain.Post
 import com.example.mobileapp.domain.User
 import com.haroldadmin.cnradapter.NetworkResponse
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import retrofit2.http.*
 
 interface Api {
     @GET("users")
     suspend fun getUsers(): NetworkResponse<List<User>, Unit>
 
-    @POST("auth/sign-in-email")
+    @POST("auth/sign-in-with-email")
     suspend fun signInWithEmail(
         @Body request: SignInWithEmailRequest
     ): NetworkResponse<AuthTokens, SignInWithEmailErrorResponse>
@@ -37,7 +34,7 @@ interface Api {
         @Query("code") code: String,
         @Query("email") email: String?,
         @Query("phone_number") phoneNumber: String?
-    ): NetworkResponse<VerificationTokenResponse, VerifyRegistrationCodeErrorResponse>
+    ): NetworkResponse<Unit, VerifyRegistrationCodeErrorResponse>
 
     @PUT("registration/create-profile")
     suspend fun createProfile(
@@ -46,4 +43,7 @@ interface Api {
 
     @POST("posts")
     suspend fun getPost(): NetworkResponse<List<Post>, Unit>
+
+    @GET("users/get-profile")
+    suspend fun getProfile(): NetworkResponse<User, Unit>
 }

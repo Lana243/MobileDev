@@ -78,7 +78,6 @@ class AuthRepository @Inject constructor(
      * @return access tokens with higher permissions for the new registered user
      */
     suspend fun generateAuthTokensByEmailAndPersonalInfo(
-        verificationToken: String,
         firstName: String,
         lastName: String,
         username: String,
@@ -87,7 +86,6 @@ class AuthRepository @Inject constructor(
     ): NetworkResponse<AuthTokens, CreateProfileErrorResponse> {
         return api.createProfile(
             CreateProfileRequest(
-                verificationToken,
                 firstName,
                 lastName,
                 username,

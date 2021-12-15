@@ -4,7 +4,6 @@ import com.example.mobileapp.Api
 import com.example.mobileapp.data.network.request.CreateProfileRequest
 import com.example.mobileapp.data.network.request.RefreshAuthTokensRequest
 import com.example.mobileapp.data.network.request.SignInWithEmailRequest
-import com.example.mobileapp.data.network.response.VerificationTokenResponse
 import com.example.mobileapp.data.network.response.error.*
 import com.example.mobileapp.domain.AuthTokens
 import com.example.mobileapp.domain.Post
@@ -65,7 +64,7 @@ class MockApi : Api {
         code: String,
         email: String?,
         phoneNumber: String?
-    ): NetworkResponse<VerificationTokenResponse, VerifyRegistrationCodeErrorResponse> {
+    ): NetworkResponse<Unit, VerifyRegistrationCodeErrorResponse> {
         TODO("Not yet implemented")
     }
 
@@ -74,6 +73,10 @@ class MockApi : Api {
     }
 
     override suspend fun getPost(): NetworkResponse<List<Post>, Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getProfile(): NetworkResponse<User, Unit> {
         TODO("Not yet implemented")
     }
 }
