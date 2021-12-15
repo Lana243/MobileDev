@@ -29,9 +29,6 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
         setupRecyclerView()
         subscribeToViewState()
 
-        viewBinding.usersRecyclerView.applyInsetter {
-            type(statusBars = true) { margin() }
-        }
         viewBinding.pullToRefreshLayout.applyInsetter {
             type(statusBars = true) { margin() }
         }
@@ -59,10 +56,12 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
     private fun renderViewState(viewState: UserListViewModel.ViewState) {
         when (viewState) {
             is UserListViewModel.ViewState.Loading -> {
+                viewBinding.pullToRefreshLayout.isRefreshing = true
                 viewBinding.usersRecyclerView.isVisible = false
                 viewBinding.errorLayout.isVisible = false
             }
             is UserListViewModel.ViewState.Data -> {
+                viewBinding.pullToRefreshLayout.isRefreshing = false
                 viewBinding.usersRecyclerView.isVisible = true
                 viewBinding.errorLayout.isVisible = false
 
@@ -72,12 +71,14 @@ class UserListFragment : BaseFragment(R.layout.fragment_user_list) {
                 }
             }
             is UserListViewModel.ViewState.Error -> {
+                viewBinding.pullToRefreshLayout.isRefreshing = false
                 viewBinding.usersRecyclerView.isVisible = false
                 viewBinding.errorLayout.isVisible = true
 
                 viewBinding.errorText.text = resources.getString(R.string.userlist_error_message)
             }
             is UserListViewModel.ViewState.EmptyList -> {
+                viewBinding.pullToRefreshLayout.isRefreshing = false
                 viewBinding.usersRecyclerView.isVisible = false
                 viewBinding.errorLayout.isVisible = true
 
