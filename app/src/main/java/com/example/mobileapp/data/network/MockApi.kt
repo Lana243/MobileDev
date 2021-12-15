@@ -4,7 +4,6 @@ import com.example.mobileapp.Api
 import com.example.mobileapp.data.network.request.CreateProfileRequest
 import com.example.mobileapp.data.network.request.RefreshAuthTokensRequest
 import com.example.mobileapp.data.network.request.SignInWithEmailRequest
-import com.example.mobileapp.data.network.response.VerificationTokenResponse
 import com.example.mobileapp.data.network.response.error.*
 import com.example.mobileapp.domain.AuthTokens
 import com.example.mobileapp.domain.Post
@@ -16,6 +15,58 @@ import kotlin.random.Random
 
 class MockApi : Api {
 
+    private var idCur = 12L
+    private val userList = mutableListOf(
+        User(
+            id = 7,
+            firstName = "Michael",
+            lastName = "Lawson",
+            avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
+            username = "Michael",
+            groupName = "Б09.мкн"
+        ),
+        User(
+            id = 4,
+            firstName = "George",
+            lastName = "VI",
+            username = "Gosha",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 8,
+            firstName = "Masha",
+            lastName = "Nazarova",
+            username = "Mary",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 9,
+            firstName = "Igor",
+            lastName = "Petrov",
+            username = "igor95",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 10,
+            firstName = "Masha",
+            lastName = "Nazarova",
+            username = "Mary2",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 11,
+            firstName = "Masha",
+            lastName = "Nazarova",
+            username = "Mary3",
+            avatarUrl = null,
+            groupName = null
+        )
+    )
+
     private val randomizer = Random(1337)
 
     override suspend fun getUsers(): NetworkResponse<List<User>, Unit> {
@@ -23,16 +74,7 @@ class MockApi : Api {
         Timber.d("Try to load users. Success: %s", success)
         if (success)
             return NetworkResponse.Success(
-                body = listOf(
-                    User(
-                        id = 7,
-                        firstName = "Michael",
-                        lastName = "Lawson",
-                        avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
-                        username = "Michael",
-                        groupName = "Б09.мкн"
-                    )
-                ),
+                body = userList,
                 code = 200
             )
         if (randomizer.nextBoolean())
@@ -65,15 +107,32 @@ class MockApi : Api {
         code: String,
         email: String?,
         phoneNumber: String?
-    ): NetworkResponse<VerificationTokenResponse, VerifyRegistrationCodeErrorResponse> {
+    ): NetworkResponse<Unit, VerifyRegistrationCodeErrorResponse> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createProfile(request: CreateProfileRequest): NetworkResponse<AuthTokens, CreateProfileErrorResponse> {
-        TODO("Not yet implemented")
+    override suspend fun createProfile(request: CreateProfileRequest): NetworkResponse<User, CreateProfileErrorResponse> {
+        idCur += 1
+        val newUser = User(
+            id = idCur,
+            username = request.username,
+            firstName = request.firstName,
+            lastName = request.lastName,
+            groupName = null,
+            avatarUrl = null
+        )
+        userList.add(newUser)
+        return NetworkResponse.Success(body = newUser, code = 204)
     }
 
     override suspend fun getPost(): NetworkResponse<List<Post>, Unit> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getProfile(): NetworkResponse<User, Unit> {
+        return NetworkResponse.Success(
+            userList[0],
+            code = 200
+        )
     }
 }

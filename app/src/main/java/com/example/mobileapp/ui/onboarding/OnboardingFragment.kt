@@ -3,6 +3,7 @@ package com.example.mobileapp.ui.onboarding
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dev.chrisbanes.insetter.applyInsetter
+
 
 class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
