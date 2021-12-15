@@ -1,48 +1,69 @@
 package com.example.mobileapp.ui.signup
 
 import androidx.lifecycle.viewModelScope
+import com.example.mobileapp.data.network.response.error.CreateProfileErrorResponse
+import com.example.mobileapp.data.network.response.error.SignInWithEmailErrorResponse
+import com.example.mobileapp.interactor.AuthInteractor
 import com.example.mobileapp.repository.AuthRepositoryOld
 import com.example.mobileapp.ui.base.BaseViewModel
+import com.example.mobileapp.ui.signin.SignInViewModel
+import com.haroldadmin.cnradapter.NetworkResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.lang.Exception
+import javax.inject.Inject
 
-class SignUpViewModel : BaseViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val authInteractor: AuthInteractor
+) : BaseViewModel() {
 
-    private val _eventChannel = Channel<Event>(Channel.BUFFERED)
+    private val _signUpActionStateFlow = MutableStateFlow<SignUpActionState>(SignUpActionState.Pending)
 
-    fun eventsFlow(): Flow<Event> {
-        return _eventChannel.receiveAsFlow()
+    fun signUpActionStateFlow(): Flow<SignUpActionState> {
+        return _signUpActionStateFlow.asStateFlow()
     }
 
-    fun signUp(
-        firstname: String,
-        lastname: String,
-        nickname: String,
-        email: String,
-        password: String
-    ) {
+    fun signUp(firstName: String,
+               lastName: String,
+               username: String,
+               email: String,
+               password: String) {
         viewModelScope.launch {
+            _signUpActionStateFlow.emit(SignUpActionState.Loading)
             try {
-                AuthRepositoryOld.signUp(
-                    firstname,
-                    lastname,
-                    nickname,
-                    email,
-                    password
-                )
-                // _eventChannel.send(Event.SignUpSuccess)
-                _eventChannel.send(Event.SignUpEmailConfirmationRequired)
-            } catch (error: Exception) {
-                _eventChannel.send(Event.SignUpEmailConfirmationRequired)
+                when (val response = authInteractor.signUpWithPersonalInfo(firstName, lastName, username, email, password)) {
+                    is NetworkResponse.Success -> {
+                        _signUpActionStateFlow.emit(SignUpActionState.Pending)
+                    }
+                    is NetworkResponse.ServerError -> {
+                        _signUpActionStateFlow.emit(SignUpActionState.ServerError(response))
+                    }
+                    is NetworkResponse.NetworkError -> {
+                        _signUpActionStateFlow.emit(SignUpActionState.NetworkError(response))
+                    }
+                    is NetworkResponse.UnknownError -> {
+                        _signUpActionStateFlow.emit(SignUpActionState.UnknownError(response))
+                    }
+                }
+            } catch (error: Throwable) {
+                Timber.e(error)
+                _signUpActionStateFlow.emit(SignUpActionState.UnknownError(NetworkResponse.UnknownError(error)))
             }
         }
     }
 
-    sealed class Event {
-        object SignUpSuccess : Event()
-        object SignUpEmailConfirmationRequired : Event()
+    sealed class SignUpActionState {
+        object Pending : SignUpActionState()
+        object Loading : SignUpActionState()
+        data class ServerError(val e: NetworkResponse.ServerError<CreateProfileErrorResponse>) : SignUpActionState()
+        data class NetworkError(val e: NetworkResponse.NetworkError) : SignUpActionState()
+        data class UnknownError(val e: NetworkResponse.UnknownError) : SignUpActionState()
     }
 }

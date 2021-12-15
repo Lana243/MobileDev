@@ -12,6 +12,7 @@ import com.example.mobileapp.data.persistent.LocalKeyValueStorage
 import com.example.mobileapp.di.AppCoroutineScope
 import com.example.mobileapp.di.IoCoroutineDispatcher
 import com.example.mobileapp.domain.AuthTokens
+import com.example.mobileapp.domain.User
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -77,13 +78,13 @@ class AuthRepository @Inject constructor(
      * Creates a user account in the system as a side effect.
      * @return access tokens with higher permissions for the new registered user
      */
-    suspend fun generateAuthTokensByEmailAndPersonalInfo(
+    suspend fun generateUserByEmailAndPersonalInfo(
         firstName: String,
         lastName: String,
         username: String,
         email: String,
         password: String
-    ): NetworkResponse<AuthTokens, CreateProfileErrorResponse> {
+    ): NetworkResponse<User, CreateProfileErrorResponse> {
         return api.createProfile(
             CreateProfileRequest(
                 firstName,

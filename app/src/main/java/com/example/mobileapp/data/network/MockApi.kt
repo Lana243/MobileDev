@@ -68,7 +68,7 @@ class MockApi : Api {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createProfile(request: CreateProfileRequest): NetworkResponse<AuthTokens, CreateProfileErrorResponse> {
+    override suspend fun createProfile(request: CreateProfileRequest): NetworkResponse<User, CreateProfileErrorResponse> {
         TODO("Not yet implemented")
     }
 

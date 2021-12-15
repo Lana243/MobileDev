@@ -26,11 +26,13 @@ import com.example.mobileapp.ui.base.BaseFragment
 import com.example.mobileapp.R
 import com.example.mobileapp.databinding.FragmentSignUpBinding
 import com.example.mobileapp.util.getSpannedString
+import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     private val viewModel: SignUpViewModel by viewModels()
@@ -86,13 +88,13 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         }
         viewBinding.signUpButton.setOnClickListener {
             viewModel.signUp(
-                firstname = viewBinding.firstnameEditText.text?.toString() ?: "",
-                lastname = viewBinding.lastnameEditText.text?.toString() ?: "",
-                nickname = viewBinding.nicknameEditText.text?.toString() ?: "",
+                firstName = viewBinding.firstnameEditText.text?.toString() ?: "",
+                lastName = viewBinding.lastnameEditText.text?.toString() ?: "",
+                username = viewBinding.nicknameEditText.text?.toString() ?: "",
                 email = viewBinding.emailEditText.text?.toString() ?: "",
                 password = viewBinding.passwordEditText.text?.toString() ?: ""
             )
-            findNavController().navigate(R.id.emailConfirmationFragment)
+            findNavController().navigate(R.id.onboardingFragment)
         }
 
         viewBinding.termsAndConditionsCheckBox.setClubRulesText {
@@ -106,17 +108,17 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.eventsFlow().collect { event ->
-                    when (event) {
-                        is SignUpViewModel.Event.SignUpEmailConfirmationRequired -> {
-                            findNavController().navigate(R.id.emailConfirmationFragment)
-                        }
-                        else -> {
-                            // Do nothing.
-
-                        }
-                    }
-                }
+//                viewModel.eventsFlow().collect { event ->
+//                    when (event) {
+//                        is SignUpViewModel.Event.SignUpEmailConfirmationRequired -> {
+//                            findNavController().navigate(R.id.emailConfirmationFragment)
+//                        }
+//                        else -> {
+//                            // Do nothing.
+//
+//                        }
+//                    }
+//                }
             }
         }
     }

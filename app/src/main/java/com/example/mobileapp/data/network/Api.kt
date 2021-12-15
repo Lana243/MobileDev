@@ -36,10 +36,10 @@ interface Api {
         @Query("phone_number") phoneNumber: String?
     ): NetworkResponse<Unit, VerifyRegistrationCodeErrorResponse>
 
-    @PUT("registration/create-profile")
+    @POST("registration/create-profile")
     suspend fun createProfile(
         @Body request: CreateProfileRequest
-    ): NetworkResponse<AuthTokens, CreateProfileErrorResponse>
+    ): NetworkResponse<User, CreateProfileErrorResponse>
 
     @POST("posts")
     suspend fun getPost(): NetworkResponse<List<Post>, Unit>
