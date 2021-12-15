@@ -15,6 +15,57 @@ import kotlin.random.Random
 
 class MockApi : Api {
 
+    private val userList = listOf(
+        User(
+            id = 7,
+            firstName = "Michael",
+            lastName = "Lawson",
+            avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
+            username = "Michael",
+            groupName = "Б09.мкн"
+        ),
+        User(
+            id = 4,
+            firstName = "George",
+            lastName = "VI",
+            username = "Gosha",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 8,
+            firstName = "Masha",
+            lastName = "Nazarova",
+            username = "Mary",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 9,
+            firstName = "Igor",
+            lastName = "Petrov",
+            username = "igor95",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 10,
+            firstName = "Masha",
+            lastName = "Nazarova",
+            username = "Mary2",
+            avatarUrl = null,
+            groupName = null
+        ),
+        User(
+            id = 11,
+            firstName = "Masha",
+            lastName = "Nazarova",
+            username = "Mary3",
+            avatarUrl = null,
+            groupName = null
+        )
+    )
+
     private val randomizer = Random(1337)
 
     override suspend fun getUsers(): NetworkResponse<List<User>, Unit> {
@@ -22,16 +73,7 @@ class MockApi : Api {
         Timber.d("Try to load users. Success: %s", success)
         if (success)
             return NetworkResponse.Success(
-                body = listOf(
-                    User(
-                        id = 7,
-                        firstName = "Michael",
-                        lastName = "Lawson",
-                        avatarUrl = "https://reqres.in/img/faces/7-image.jpg",
-                        username = "Michael",
-                        groupName = "Б09.мкн"
-                    )
-                ),
+                body = userList,
                 code = 200
             )
         if (randomizer.nextBoolean())
@@ -77,6 +119,9 @@ class MockApi : Api {
     }
 
     override suspend fun getProfile(): NetworkResponse<User, Unit> {
-        TODO("Not yet implemented")
+        return NetworkResponse.Success(
+            userList[0],
+            code = 200
+        )
     }
 }
