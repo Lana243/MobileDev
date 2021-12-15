@@ -53,7 +53,6 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeToEvents()
 
         viewBinding.backButton.applyInsetter {
             type(statusBars = true) { margin() }
@@ -94,7 +93,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                 email = viewBinding.emailEditText.text?.toString() ?: "",
                 password = viewBinding.passwordEditText.text?.toString() ?: ""
             )
-            findNavController().navigate(R.id.onboardingFragment)
+            //findNavController().navigate(R.id.onboardingFragment)
         }
 
         viewBinding.termsAndConditionsCheckBox.setClubRulesText {
@@ -102,25 +101,6 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         }
 
         subscribeToFormFields()
-    }
-
-    private fun subscribeToEvents() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-//                viewModel.eventsFlow().collect { event ->
-//                    when (event) {
-//                        is SignUpViewModel.Event.SignUpEmailConfirmationRequired -> {
-//                            findNavController().navigate(R.id.emailConfirmationFragment)
-//                        }
-//                        else -> {
-//                            // Do nothing.
-//
-//                        }
-//                    }
-//                }
-            }
-        }
     }
 
     private fun subscribeToFormFields() {

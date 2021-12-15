@@ -30,6 +30,29 @@ class SignUpViewModel @Inject constructor(
         return _signUpActionStateFlow.asStateFlow()
     }
 
+    private suspend fun signIn(email: String, password: String) {
+        _signUpActionStateFlow.emit(SignUpActionState.Loading)
+        try {
+            when (val response = authInteractor.signInWithEmail(email, password)) {
+                is NetworkResponse.Success -> {
+                    _signUpActionStateFlow.emit(SignUpActionState.Pending)
+                }
+                is NetworkResponse.ServerError -> {
+                    _signUpActionStateFlow.emit(SignUpActionState.ServerSignInError(response))
+                }
+                is NetworkResponse.NetworkError -> {
+                    _signUpActionStateFlow.emit(SignUpActionState.NetworkError(response))
+                }
+                is NetworkResponse.UnknownError -> {
+                    _signUpActionStateFlow.emit(SignUpActionState.UnknownError(response))
+                }
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+            _signUpActionStateFlow.emit(SignUpActionState.UnknownError(NetworkResponse.UnknownError(error)))
+        }
+    }
+
     fun signUp(firstName: String,
                lastName: String,
                username: String,
@@ -41,6 +64,7 @@ class SignUpViewModel @Inject constructor(
                 when (val response = authInteractor.signUpWithPersonalInfo(firstName, lastName, username, email, password)) {
                     is NetworkResponse.Success -> {
                         _signUpActionStateFlow.emit(SignUpActionState.Pending)
+                        signIn(email, password)
                     }
                     is NetworkResponse.ServerError -> {
                         _signUpActionStateFlow.emit(SignUpActionState.ServerError(response))
@@ -56,6 +80,7 @@ class SignUpViewModel @Inject constructor(
                 Timber.e(error)
                 _signUpActionStateFlow.emit(SignUpActionState.UnknownError(NetworkResponse.UnknownError(error)))
             }
+
         }
     }
 
@@ -64,6 +89,7 @@ class SignUpViewModel @Inject constructor(
         object Loading : SignUpActionState()
         data class ServerError(val e: NetworkResponse.ServerError<CreateProfileErrorResponse>) : SignUpActionState()
         data class NetworkError(val e: NetworkResponse.NetworkError) : SignUpActionState()
+        data class ServerSignInError(val e: NetworkResponse.ServerError<SignInWithEmailErrorResponse>) : SignUpActionState()
         data class UnknownError(val e: NetworkResponse.UnknownError) : SignUpActionState()
     }
 }
