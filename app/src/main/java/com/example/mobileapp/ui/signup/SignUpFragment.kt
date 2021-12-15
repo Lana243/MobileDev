@@ -13,9 +13,11 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +26,8 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mobileapp.ui.base.BaseFragment
 import com.example.mobileapp.R
+import com.example.mobileapp.data.network.response.error.CreateProfileErrorResponse
+import com.example.mobileapp.data.network.response.error.SignInWithEmailErrorResponse
 import com.example.mobileapp.databinding.FragmentSignUpBinding
 import com.example.mobileapp.util.getSpannedString
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +35,7 @@ import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
@@ -53,6 +58,8 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        subscribeToActionState()
 
         viewBinding.backButton.applyInsetter {
             type(statusBars = true) { margin() }
@@ -101,6 +108,57 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         }
 
         subscribeToFormFields()
+    }
+
+    private fun subscribeToActionState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.signUpActionStateFlow().collect(::renderActionState)
+            }
+        }
+    }
+
+    private fun renderActionState(actionState: SignUpViewModel.SignUpActionState) {
+        val textInputLayouts =
+            with (viewBinding) {
+                listOf(firstnameTextInputLayout,
+                    lastnameTextInputLayout,
+                    emailTextInputLayout,
+                    passwordTextInputLayout,
+                    nicknameTextInputLayout)
+            }
+        textInputLayouts.forEach { it.error = null }
+
+        when (actionState) {
+            is SignUpViewModel.SignUpActionState.Pending -> {}
+            is SignUpViewModel.SignUpActionState.Loading -> {}
+            is SignUpViewModel.SignUpActionState.ServerError -> {
+                val error = actionState.e.body ?: CreateProfileErrorResponse(null,
+                    null, null, null, null, null)
+                val errors =
+                    with(error) {
+                        listOf(firstName, lastName, email, password, username)
+                    }
+
+                (errors zip textInputLayouts).forEach { (error, inputLayout) ->
+                    Timber.d(error.toString())
+                    if (error != null) {
+                        if (error.size > 0) {
+                            inputLayout.error = error[0].message
+                        }
+                    }
+                }
+            }
+            is SignUpViewModel.SignUpActionState.ServerSignInError -> {}
+            is SignUpViewModel.SignUpActionState.NetworkError -> {
+                Toast.makeText(context, "Плохое интернет соединение. Проверьте подключение и повторите",
+                    Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(context, "Упс, что-то пошло не так. Попробуйте еще раз",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun subscribeToFormFields() {

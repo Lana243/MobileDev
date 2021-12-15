@@ -69,9 +69,22 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private fun renderViewState(viewState : ProfileViewModel.ViewState) {
         when (viewState) {
             is ProfileViewModel.ViewState.Loading -> {
-                // TODO: handle loading
+                with(viewBinding) {
+                    listOf(firstName, lastName, groupName, avatarImageView, selectedUsername)
+                }.forEach {
+                    it.isVisible = false
+                }
+                viewBinding.progressBar.isVisible = true
+
             }
             is ProfileViewModel.ViewState.Data -> {
+                viewBinding.progressBar.isVisible = false
+                with(viewBinding) {
+                    listOf(firstName, lastName, groupName, avatarImageView, selectedUsername)
+                }.forEach {
+                    it.isVisible = true
+                }
+
                 Glide.with(viewBinding.avatarImageView)
                     .load(viewState.user.avatarUrl)
                     .circleCrop()
