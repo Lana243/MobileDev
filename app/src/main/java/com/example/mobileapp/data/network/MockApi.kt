@@ -15,7 +15,8 @@ import kotlin.random.Random
 
 class MockApi : Api {
 
-    private val userList = listOf(
+    private var idCur = 12L
+    private val userList = mutableListOf(
         User(
             id = 7,
             firstName = "Michael",
@@ -111,7 +112,17 @@ class MockApi : Api {
     }
 
     override suspend fun createProfile(request: CreateProfileRequest): NetworkResponse<User, CreateProfileErrorResponse> {
-        TODO("Not yet implemented")
+        idCur += 1
+        val newUser = User(
+            id = idCur,
+            username = request.username,
+            firstName = request.firstName,
+            lastName = request.lastName,
+            groupName = null,
+            avatarUrl = null
+        )
+        userList.add(newUser)
+        return NetworkResponse.Success(body = newUser, code = 204)
     }
 
     override suspend fun getPost(): NetworkResponse<List<Post>, Unit> {
