@@ -26,6 +26,7 @@
         android:layout_marginEnd="48dp"/>
 
     <com.example.mobileapp.ui.emailconfirmation.VerificationCodeEditText
+        android:id="@+id/verificationCodeEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,18 +40,19 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/email_confirmation_verify"
-        app:layout_constraintBottom_toTopOf="@+id/toEmailButton"
+        app:layout_constraintBottom_toTopOf="@+id/sendNewCodeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         style="@style/MyBrandBlueButton"
-        android:id="@+id/toEmailButton"
+        android:id="@+id/sendNewCodeButton"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="48dp"
-        android:text="@string/email_confirmation_to_email"
+        android:layout_marginBottom="24dp"
+        android:text="@string/email_confirmation_resend"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

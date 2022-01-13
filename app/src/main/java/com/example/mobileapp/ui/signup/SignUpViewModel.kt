@@ -64,7 +64,6 @@ class SignUpViewModel @Inject constructor(
                 when (val response = authInteractor.signUpWithPersonalInfo(firstName, lastName, username, email, password)) {
                     is NetworkResponse.Success -> {
                         _signUpActionStateFlow.emit(SignUpActionState.Pending)
-                        signIn(email, password)
                     }
                     is NetworkResponse.ServerError -> {
                         _signUpActionStateFlow.emit(SignUpActionState.ServerError(response))

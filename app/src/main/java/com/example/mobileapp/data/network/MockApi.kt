@@ -100,7 +100,7 @@ class MockApi : Api {
     }
 
     override suspend fun sendRegistrationVerificationCode(email: String): NetworkResponse<Unit, SendRegistrationVerificationCodeErrorResponse> {
-        TODO("Not yet implemented")
+        return NetworkResponse.Success(body = Unit, code = 200)
     }
 
     override suspend fun verifyRegistrationCode(
