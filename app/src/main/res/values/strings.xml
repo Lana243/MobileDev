@@ -35,4 +35,7 @@
     <string name="userlist_try_again">Попробовать еще раз</string>
     <string name="userlist_empty">Пока нет добавленных пользователей</string>
     <string name="userlist_error_message">Ой, что-то пошло не так :(\nПроверьте подключение к сети и повторите еще раз</string>
+    <string name="defaultUserImageUrl">https://s.yimg.com/ny/api/res/1.2/5rmN2CQI90DCby7uM2UefQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04MDA-/https://s.yimg.com/uu/api/res/1.2/W1dJaYmRHV_PHKDIDmm__Q--~B/aD0xNDAwO3c9MjEwMDthcHBpZD15dGFjaHlvbg--/http://media.zenfs.com/en-US/homerun/time_72/ad41bb42a3e7be9eb1e32a9f2097b80f</string>
+    <string name="email_confirmation_resend">Отправить код повторно</string>
+    <string name="email_confirmation_timer">Новый код через: %d секунд</string>
 </resources>
